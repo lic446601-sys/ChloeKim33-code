@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>鹤研 HEYAN — 优雅地老去</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              green: '#3D5A47',
+              'green-dark': '#2A3F31',
+              'green-light': '#E8ECE5',
+              gold: '#B8955A',
+              'gold-light': '#D4B97A',
+              cream: '#F5F0E8',
+              'cream-light': '#FAF8F4',
+              warm: '#EDE6D8',
+              sand: '#E8DCC8',
+              'sand-light': '#F2EBE0',
+              text: '#1C1C1A',
+              muted: '#6B6560',
+              border: '#D9D2C7',
+            }
+          },
+          fontFamily: {
+            serif: ['"Noto Serif SC"', 'Georgia', 'serif'],
+            sans: ['"Noto Sans SC"', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Noto Sans SC', system-ui, sans-serif; color: #1C1C1A; background: #FAF8F4; }
+    .font-serif { font-family: 'Noto Serif SC', Georgia, serif; }
+    .nav-link { position: relative; }
+    .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:1px; background:#3D5A47; transition:width .3s; }
+    .nav-link:hover::after { width: 100%; }
+    .quote-mark { font-size: 6rem; line-height: 1; color: #B8955A; opacity: 0.3; }
+    
+    /* 产品摄影场景：柔和渐变 + 真实环境色温 */
+    .stage-warm { 
+      background: 
+        radial-gradient(ellipse 60% 40% at 50% 35%, rgba(255, 248, 230, 0.9) 0%, transparent 70%),
+        linear-gradient(180deg, #F0E6D0 0%, #E5D5B8 50%, #D8C49A 100%);
+    }
+    .stage-moss { 
+      background: 
+        radial-gradient(ellipse 60% 40% at 50% 35%, rgba(232, 236, 229, 0.9) 0%, transparent 70%),
+        linear-gradient(180deg, #DDE5D5 0%, #C9D4BE 50%, #B0BFA3 100%);
+    }
+    .stage-mist { 
+      background: 
+        radial-gradient(ellipse 60% 40% at 50% 35%, rgba(245, 240, 232, 0.95) 0%, transparent 70%),
+        linear-gradient(180deg, #E8E4EC 0%, #D8D0DC 50%, #C5B8CC 100%);
+    }
+    .stage-stone { 
+      background: 
+        radial-gradient(ellipse 60% 40% at 50% 35%, rgba(245, 240, 232, 0.9) 0%, transparent 70%),
+        linear-gradient(180deg, #E8DCC8 0%, #D4C0A4 50%, #B89B7A 100%);
+    }
+    
+    /* 产品自然落地：长投影 + 顶光晕 */
+    .product-stage {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 18%;
+      overflow: hidden;
+    }
+    .product-stage::before {
+      /* 地面投影 */
+      content: '';
+      position: absolute;
+      bottom: 12%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50%;
+      height: 4%;
+      background: radial-gradient(ellipse 50% 50% at center, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.08) 40%, transparent 70%);
+      filter: blur(8px);
+      z-index: 1;
+    }
+    .product-stage::after {
+      /* 顶部柔光 */
+      content: '';
+      position: absolute;
+      top: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70%;
+      height: 50%;
+      background: radial-gradient(ellipse 50% 50% at center, rgba(255,255,255,0.4) 0%, transparent 60%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .product-img {
+      position: relative;
+      z-index: 2;
+      max-height: 70%;
+      width: auto;
+      max-width: 60%;
+      object-fit: contain;
+      /* 边缘反光融合 */
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.08));
+    }
+    
+    /* 产品大图（Hero & Featured） */
+    .product-hero {
+      filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15));
+    }
+    
+    /* 分类卡片 */
+    .category-card::after { content:''; position:absolute; inset:0; background:rgba(28,28,26,0); transition:background .4s; }
+    .category-card:hover::after { background:rgba(28,28,26,0.15); }
+    .category-card:hover .category-img { transform: scale(1.04); }
+    .category-img { transition: transform 0.6s ease-out; }
+    
+    /* 滚动条 */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #F5F0E8; }
+    ::-webkit-scrollbar-thumb { background: #B8955A; border-radius: 3px; }
+    
+    /* 简单的羽毛 */
+    .img-fade-bottom { 
+      mask-image: linear-gradient(180deg, black 85%, transparent 100%);
+      -webkit-mask-image: linear-gradient(180deg, black 85%, transparent 100%);
+    }
+  </style>
+</head>
+<body class="bg-brand-cream-light">
+
+  <!-- ===================== NAVIGATION ===================== -->
+  <nav class="sticky top-0 z-50 bg-brand-cream-light/95 backdrop-blur-sm border-b border-brand-border/50">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-5 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3">
+        <img src="logo-heyyan.png" alt="鹤研" class="h-9 w-auto" />
+      </a>
+      <div class="hidden md:flex items-center gap-9 text-sm tracking-wide text-brand-text font-sans">
+        <a href="#products" class="nav-link">护肤系列</a>
+        <a href="#philosophy" class="nav-link">品牌理念</a>
+        <a href="#featured" class="nav-link">产品特写</a>
+        <a href="#articles" class="nav-link">鹤研札记</a>
+        <a href="#" class="nav-link">门店</a>
+      </div>
+      <div class="flex items-center gap-5 text-sm text-brand-text font-sans">
+        <a href="#" class="hover:text-brand-green transition-colors">搜索</a>
+        <a href="#" class="hover:text-brand-green transition-colors">账户</a>
+        <a href="#" class="hover:text-brand-green transition-colors flex items-center gap-1">
+          购物袋 <span class="text-xs text-brand-muted">(0)</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="bg-brand-cream-light">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 py-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 min-h-[80vh]">
+        <!-- 左侧产品场景：暖色桌面 -->
+        <div class="relative stage-warm overflow-hidden flex items-end justify-center py-12 lg:py-20">
+          <!-- 地面阴影 -->
+          <div class="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-[55%] h-12 bg-black/20 blur-2xl rounded-full"></div>
+          <div class="absolute top-[10%] left-1/2 -translate-x-1/2 w-[80%] h-[60%] bg-white/30 blur-3xl rounded-full"></div>
+          
+          <img
+            src="product-jingui.jpg"
+            alt="金桂舒心乳"
+            class="relative z-10 w-auto h-[70vh] max-h-[600px] object-contain product-hero"
+          />
+          <div class="absolute top-8 left-8 bg-white/90 text-brand-green text-xs px-4 py-1.5 tracking-widest font-sans backdrop-blur-sm">
+            护肤系列
+          </div>
+        </div>
+        
+        <!-- 右侧文案 -->
+        <div class="flex flex-col justify-center px-8 md:px-14 lg:px-20 py-16 lg:py-20 bg-brand-cream-light">
+          <p class="text-brand-gold text-xs tracking-[0.25em] uppercase mb-6 font-sans">HEYAN — A New Approach</p>
+          <h1 class="font-serif text-4xl md:text-5xl lg:text-[3.25rem] leading-tight text-brand-text mb-4">
+            优雅地<br/>老去
+          </h1>
+          <p class="font-serif text-xl md:text-2xl text-brand-muted leading-relaxed mb-8">
+            金桂舒心乳 × 金耳舒颜凝露
+          </p>
+          <p class="text-sm leading-7 text-brand-muted max-w-md mb-10 font-sans">
+            不是所有"来自自然"的东西，都适合脆弱受损肌。<br/>
+            鹤研的选择：只添加真正有用且足量的功效成分。
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="#products" class="inline-block bg-brand-green text-white text-sm px-8 py-3.5 tracking-widest text-center hover:bg-brand-green-dark transition-colors font-sans">
+              探索系列
+            </a>
+            <a href="#philosophy" class="inline-block border border-brand-border text-brand-text text-sm px-8 py-3.5 tracking-widest text-center hover:border-brand-green hover:text-brand-green transition-colors font-sans">
+              品牌理念
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BRAND QUOTE ===================== -->
+  <section class="bg-brand-green py-16 md:py-20">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 text-center">
+      <p class="font-serif text-white/90 text-xl md:text-2xl lg:text-3xl leading-relaxed max-w-3xl mx-auto">
+        "我们不需要装嫩，但要优雅地老去。"
+      </p>
+      <p class="text-white/50 text-sm mt-6 tracking-widest">— 鹤研 HEYAN 品牌哲学</p>
+    </div>
+  </section>
+
+  <!-- ===================== CURATED SETS: 三款产品置于自然场景中 ===================== -->
+  <section id="products" class="py-20 md:py-28 bg-brand-cream-light">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+      <div class="mb-14">
+        <p class="text-brand-gold text-xs tracking-[0.3em] uppercase mb-4 font-sans">精选套装</p>
+        <h2 class="font-serif text-3xl md:text-4xl text-brand-text">护肤系列</h2>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
+        <!-- 产品 1：金桂舒心乳 — 暖色桌面 -->
+        <div class="group cursor-pointer">
+          <div class="relative stage-warm overflow-hidden mb-5 product-stage" style="aspect-ratio:3/4;">
+            <img
+              src="product-jingui.jpg"
+              alt="金桂舒心乳"
+              class="product-img transition-transform duration-500 group-hover:scale-[1.03]"
+            />
+            <div class="absolute top-4 left-4 bg-white/90 text-brand-green text-[10px] tracking-widest px-3 py-1 font-sans z-10">主推</div>
+          </div>
+          <div class="px-1">
+            <h3 class="font-serif text-lg text-brand-text mb-1">金桂舒心乳</h3>
+            <p class="text-brand-muted text-xs tracking-wider mb-3 font-sans">SKIN RELIEF MOISTURIZER · 300ml</p>
+            <p class="text-brand-text/60 text-sm leading-6 mb-4 font-sans">
+              专为脆弱屏障肌肤设计。精简配方，只添加真正起效的功效成分。
+            </p>
+            <div class="flex items-center justify-between">
+              <span class="text-brand-text font-medium text-sm font-sans">¥298</span>
+              <div class="flex gap-2 text-brand-muted text-xs tracking-wide">
+                <span class="border border-brand-border px-2 py-0.5">舒缓</span>
+                <span class="border border-brand-border px-2 py-0.5">修护</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 产品 2：金耳舒颜凝露 — 青苔森林 -->
+        <div class="group cursor-pointer">
+          <div class="relative stage-moss overflow-hidden mb-5 product-stage" style="aspect-ratio:3/4;">
+            <img
+              src="product-jinger.jpg"
+              alt="金耳舒颜凝露"
+              class="product-img transition-transform duration-500 group-hover:scale-[1.03]"
+            />
+            <div class="absolute top-4 left-4 bg-white/90 text-brand-green text-[10px] tracking-widest px-3 py-1 font-sans z-10">主推</div>
+          </div>
+          <div class="px-1">
+            <h3 class="font-serif text-lg text-brand-text mb-1">金耳舒颜凝露</h3>
+            <p class="text-brand-muted text-xs tracking-wider mb-3 font-sans">HERBAL BOTANICAL ESSENCE GEL · 50ml</p>
+            <p class="text-brand-text/60 text-sm leading-6 mb-4 font-sans">
+              高浓度金耳菌丝体提取，质地清透如凝露，触肤即融。
+            </p>
+            <div class="flex items-center justify-between">
+              <span class="text-brand-text font-medium text-sm font-sans">¥328</span>
+              <div class="flex gap-2 text-brand-muted text-xs tracking-wide">
+                <span class="border border-brand-border px-2 py-0.5">紧致</span>
+                <span class="border border-brand-border px-2 py-0.5">焕亮</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 产品 3：安心喷 — 晨雾薄霭 -->
+        <div class="group cursor-pointer">
+          <div class="relative stage-mist overflow-hidden mb-5 product-stage" style="aspect-ratio:3/4;">
+            <img
+              src="product-anxin-375ml.jpg"
+              alt="安心喷"
+              class="product-img transition-transform duration-500 group-hover:scale-[1.03]"
+            />
+            <div class="absolute top-4 left-4 bg-white/90 text-brand-green text-[10px] tracking-widest px-3 py-1 font-sans z-10">日常</div>
+          </div>
+          <div class="px-1">
+            <h3 class="font-serif text-lg text-brand-text mb-1">安心喷</h3>
+            <p class="text-brand-muted text-xs tracking-wider mb-3 font-sans">CARE SPRAY · 375ml</p>
+            <p class="text-brand-text/60 text-sm leading-6 mb-4 font-sans">
+              舒缓喷雾，敏感不适时的即刻安抚。50ml 随身装同步发售。
+            </p>
+            <div class="flex items-center justify-between">
+              <span class="text-brand-text font-medium text-sm font-sans">¥198</span>
+              <div class="flex gap-2 text-brand-muted text-xs tracking-wide">
+                <span class="border border-brand-border px-2 py-0.5">舒缓</span>
+                <span class="border border-brand-border px-2 py-0.5">即刻</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PHILOSOPHY: 品牌理念 ===================== -->
+  <section id="philosophy" class="py-20 md:py-28 bg-brand-cream">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+      <div class="text-center mb-16">
+        <p class="text-brand-gold text-xs tracking-[0.3em] uppercase mb-4 font-sans">品牌理念</p>
+        <h2 class="font-serif text-3xl md:text-4xl text-brand-text max-w-2xl mx-auto leading-snug">
+          我们不追逐潮流，只回答一个问题：<br/>这对你的肌肤，真的有用吗？
+        </h2>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 max-w-5xl mx-auto">
+        <div class="text-center">
+          <div class="w-14 h-14 mx-auto mb-6 border border-brand-green/30 flex items-center justify-center">
+            <span class="font-serif text-2xl text-brand-green">01</span>
+          </div>
+          <h3 class="font-serif text-lg text-brand-text mb-3">植物来源 ≠ 温和</h3>
+          <p class="text-sm text-brand-muted leading-7 font-sans">
+            过于复杂的植萃体系，对屏障脆弱的肌肤可能是一种负担。
+          </p>
+        </div>
+        <div class="text-center">
+          <div class="w-14 h-14 mx-auto mb-6 border border-brand-green/30 flex items-center justify-center">
+            <span class="font-serif text-2xl text-brand-green">02</span>
+          </div>
+          <h3 class="font-serif text-lg text-brand-text mb-3">天然 ≠ 安全</h3>
+          <p class="text-sm text-brand-muted leading-7 font-sans">
+            很多致敏源头恰恰来自某些天然植物提取物。不是所有"来自自然"的东西都适合脆弱肌。
+          </p>
+        </div>
+        <div class="text-center">
+          <div class="w-14 h-14 mx-auto mb-6 border border-brand-green/30 flex items-center justify-center">
+            <span class="font-serif text-2xl text-brand-green">03</span>
+          </div>
+          <h3 class="font-serif text-lg text-brand-text mb-3">成分多 ≠ 有效</h3>
+          <p class="text-sm text-brand-muted leading-7 font-sans">
+            当活性物被堆砌成"成分表盛宴"，往往没有一种达到真正的起效剂量。
+          </p>
+        </div>
+      </div>
+      
+      <p class="text-center font-serif text-brand-text/80 text-lg mt-14 max-w-2xl mx-auto leading-relaxed">
+        鹤研的选择：只添加<strong class="text-brand-green">真正有用且足量</strong>的功效成分。
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== CARE FINDER: 肤况测试 ===================== -->
+  <section class="py-20 md:py-24 bg-brand-green">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <p class="text-brand-gold-light text-xs tracking-[0.3em] uppercase mb-5 font-sans">鹤研 · 护肤向导</p>
+          <h2 class="font-serif text-3xl md:text-4xl text-white leading-tight mb-6">
+            找到适合<br/>你的那一支
+          </h2>
+          <p class="text-white/70 text-sm leading-7 font-sans max-w-md mb-8">
+            通过 6 个简单问题，了解你的肌肤状态与护理诉求。鹤研将为你推荐最契合的产品组合。
+          </p>
+          <a href="#" class="inline-block bg-white text-brand-green text-sm px-8 py-3.5 tracking-widest hover:bg-brand-cream transition-colors font-sans">
+            开始测试
+          </a>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-white/10 backdrop-blur-sm p-5 text-center text-white hover:bg-white/15 transition-colors cursor-pointer">
+            <div class="text-2xl mb-2">🌿</div>
+            <p class="text-sm tracking-wide font-sans">干燥紧绷</p>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm p-5 text-center text-white hover:bg-white/15 transition-colors cursor-pointer">
+            <div class="text-2xl mb-2">🍃</div>
+            <p class="text-sm tracking-wide font-sans">敏感泛红</p>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm p-5 text-center text-white hover:bg-white/15 transition-colors cursor-pointer">
+            <div class="text-2xl mb-2">🌸</div>
+            <p class="text-sm tracking-wide font-sans">初老暗沉</p>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm p-5 text-center text-white hover:bg-white/15 transition-colors cursor-pointer">
+            <div class="text-2xl mb-2">🍂</div>
+            <p class="text-sm tracking-wide font-sans">屏障受损</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BROWSE BY CATEGORY ===================== -->
+  <section class="py-20 md:py-28 bg-brand-cream-light">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+      <div class="mb-14">
+        <p class="text-brand-gold text-xs tracking-[0.3em] uppercase mb-4 font-sans">按品类浏览</p>
+        <h2 class="font-serif text-3xl md:text-4xl text-brand-text">探索鹤研</h2>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- 分类 1：乳液霜类 — 金桂舒心乳 -->
+        <a href="#" class="category-card relative overflow-hidden block" style="aspect-ratio:4/5;">
+          <div class="absolute inset-0 stage-warm"></div>
+          <div class="absolute bottom-[12%] left-1/2 -translate-x-1/2 w-[60%] h-3 bg-black/15 blur-xl rounded-full"></div>
+          <img src="product-jingui.jpg" alt="乳液霜类" class="category-img absolute bottom-0 left-1/2 -translate-x-1/2 w-[55%] h-auto object-contain drop-shadow-xl" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+            <h3 class="font-serif text-2xl mb-1">乳液 · 面霜</h3>
+            <p class="text-xs tracking-widest opacity-80 font-sans">金桂舒心乳</p>
+          </div>
+        </a>
+        
+        <!-- 分类 2：精华凝露类 — 金耳 -->
+        <a href="#" class="category-card relative overflow-hidden block" style="aspect-ratio:4/5;">
+          <div class="absolute inset-0 stage-moss"></div>
+          <div class="absolute bottom-[12%] left-1/2 -translate-x-1/2 w-[60%] h-3 bg-black/15 blur-xl rounded-full"></div>
+          <img src="product-jinger.jpg" alt="精华凝露类" class="category-img absolute bottom-0 left-1/2 -translate-x-1/2 w-[45%] h-auto object-contain drop-shadow-xl" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+            <h3 class="font-serif text-2xl mb-1">精华 · 凝露</h3>
+            <p class="text-xs tracking-widest opacity-80 font-sans">金耳舒颜凝露</p>
+          </div>
+        </a>
+        
+        <!-- 分类 3：喷雾类 — 安心喷 -->
+        <a href="#" class="category-card relative overflow-hidden block" style="aspect-ratio:4/5;">
+          <div class="absolute inset-0 stage-mist"></div>
+          <div class="absolute bottom-[12%] left-1/2 -translate-x-1/2 w-[60%] h-3 bg-black/15 blur-xl rounded-full"></div>
+          <img src="product-anxin-375ml.jpg" alt="喷雾类" class="category-img absolute bottom-0 left-1/2 -translate-x-1/2 w-[50%] h-auto object-contain drop-shadow-xl" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+            <h3 class="font-serif text-2xl mb-1">喷雾</h3>
+            <p class="text-xs tracking-widest opacity-80 font-sans">安心喷</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FEATURED PRODUCT ===================== -->
+  <section id="featured" class="py-20 md:py-28 bg-brand-cream">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <!-- 左侧大图 — 暖色场景 -->
+        <div class="relative stage-warm overflow-hidden product-stage" style="aspect-ratio:1/1; min-height: 500px;">
+          <img
+            src="product-jingui.jpg"
+            alt="金桂舒心乳"
+            class="product-img product-hero"
+            style="max-height: 80%; max-width: 65%;"
+          />
+        </div>
+        
+        <!-- 右侧产品详情 -->
+        <div class="px-2 lg:px-6">
+          <p class="text-brand-gold text-xs tracking-[0.3em] uppercase mb-5 font-sans">本月特写</p>
+          <h2 class="font-serif text-3xl md:text-4xl text-brand-text mb-3">金桂舒心乳</h2>
+          <p class="text-brand-muted text-sm tracking-wider mb-8 font-sans">SKIN RELIEF MOISTURIZER · 300ml</p>
+          
+          <p class="text-brand-text/80 text-base leading-8 mb-6 font-sans">
+            专为屏障脆弱、容易泛红不适的熟龄肌设计。萃取金桂精华与多重神经酰胺，
+            质地丰润而不油腻，即时舒缓干燥、敏感与不适感。
+          </p>
+          <p class="text-brand-text/80 text-base leading-8 mb-10 font-sans">
+            精简配方，无酒精、无香精、无色素——只留下真正有用的成分。
+          </p>
+          
+          <div class="flex flex-wrap gap-3 mb-10">
+            <span class="border border-brand-border text-brand-text/70 text-xs tracking-wide px-3 py-1.5 font-sans">金桂提取</span>
+            <span class="border border-brand-border text-brand-text/70 text-xs tracking-wide px-3 py-1.5 font-sans">神经酰胺 NP</span>
+            <span class="border border-brand-border text-brand-text/70 text-xs tracking-wide px-3 py-1.5 font-sans">泛醇</span>
+            <span class="border border-brand-border text-brand-text/70 text-xs tracking-wide px-3 py-1.5 font-sans">角鲨烷</span>
+          </div>
+          
+          <div class="flex items-center gap-6 mb-8">
+            <span class="text-brand-text text-2xl font-serif">¥298</span>
+            <span class="text-brand-muted text-sm line-through font-sans">¥358</span>
+          </div>
+          
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="#" class="inline-block bg-brand-green text-white text-sm px-10 py-3.5 tracking-widest text-center hover:bg-brand-green-dark transition-colors font-sans">
+              添加至购物袋
+            </a>
+            <a href="#" class="inline-block border border-brand-border text-brand-text text-sm px-8 py-3.5 tracking-widest text-center hover:border-brand-green hover:text-brand-green transition-colors font-sans">
+              了解更多
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COMPARE BY CONCERN ===================== -->
+  <section class="py-20 md:py-28 bg-brand-cream-light">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+      <div class="mb-14 text-center">
+        <p class="text-brand-gold text-xs tracking-[0.3em] uppercase mb-4 font-sans">按功效</p>
+        <h2 class="font-serif text-3xl md:text-4xl text-brand-text">为你的肌肤诉求选择</h2>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-brand-cream p-8 border border-brand-border/60">
+          <h3 class="font-serif text-xl text-brand-text mb-3">舒缓不适</h3>
+          <p class="text-brand-muted text-sm leading-7 font-sans mb-5">
+            适合泛红、刺痛、敏感发作期。金桂与积雪草复配，即时安抚。
+          </p>
+          <p class="text-sm text-brand-green tracking-wide font-sans border-b border-brand-green inline-block pb-1 hover:pb-2 transition-all">
+            推荐：金桂舒心乳 →
+          </p>
+        </div>
+        <div class="bg-brand-cream p-8 border border-brand-border/60">
+          <h3 class="font-serif text-xl text-brand-text mb-3">紧致焕亮</h3>
+          <p class="text-brand-muted text-sm leading-7 font-sans mb-5">
+            高浓度金耳多糖，促进胶原，淡化干纹细纹。
+          </p>
+          <p class="text-sm text-brand-green tracking-wide font-sans border-b border-brand-green inline-block pb-1 hover:pb-2 transition-all">
+            推荐：金耳舒颜凝露 →
+          </p>
+        </div>
+        <div class="bg-brand-cream p-8 border border-brand-border/60">
+          <h3 class="font-serif text-xl text-brand-text mb-3">即刻修护</h3>
+          <p class="text-brand-muted text-sm leading-7 font-sans mb-5">
+            随身舒缓喷雾，50ml 装可放入手袋，敏感不适时随时使用。
+          </p>
+          <p class="text-sm text-brand-green tracking-wide font-sans border-b border-brand-green inline-block pb-1 hover:pb-2 transition-all">
+            推荐：安心喷 →
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ARTICLES ===================== -->
+  <section id="articles" class="py-20 md:py-28 bg-brand-cream">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+      <div class="mb-14 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div>
+          <p class="text-brand-gold text-xs tracking-[0.3em] uppercase mb-4 font-sans">鹤研札记</p>
+          <h2 class="font-serif text-3xl md:text-4xl text-brand-text">护肤科普</h2>
+        </div>
+        <a href="#" class="text-sm text-brand-text tracking-wide border-b border-brand-text pb-1 hover:text-brand-green hover:border-brand-green transition-colors font-sans self-start md:self-end">
+          查看全部 →
+        </a>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- 文章 1：金桂舒心乳 -->
+        <article class="group cursor-pointer">
+          <div class="relative stage-warm overflow-hidden mb-5 product-stage" style="aspect-ratio:4/3;">
+            <img src="product-jingui.jpg" alt="金桂成分科普" class="product-img" style="max-height:75%; max-width:50%;" />
+          </div>
+          <p class="text-brand-muted text-xs tracking-widest mb-2 font-sans">成分 · 5 分钟阅读</p>
+          <h3 class="font-serif text-lg text-brand-text leading-snug mb-2 group-hover:text-brand-green transition-colors">
+            金桂舒心乳：为什么我们选择金桂作为核心成分
+          </h3>
+          <p class="text-sm text-brand-muted leading-6 font-sans">
+            金桂富含挥发油与黄酮，温和安抚肌肤不适……
+          </p>
+        </article>
+        
+        <!-- 文章 2：金耳舒颜凝露 -->
+        <article class="group cursor-pointer">
+          <div class="relative stage-moss overflow-hidden mb-5 product-stage" style="aspect-ratio:4/3;">
+            <img src="product-jinger.jpg" alt="屏障修护" class="product-img" style="max-height:75%; max-width:42%;" />
+          </div>
+          <p class="text-brand-muted text-xs tracking-widest mb-2 font-sans">护肤 · 7 分钟阅读</p>
+          <h3 class="font-serif text-lg text-brand-text leading-snug mb-2 group-hover:text-brand-green transition-colors">
+            屏障修护的"减法"哲学
+          </h3>
+          <p class="text-sm text-brand-muted leading-6 font-sans">
+            当肌肤反复敏感，问题的根源往往在于"太多"……
+          </p>
+        </article>
+        
+        <!-- 文章 3：安心喷 -->
+        <article class="group cursor-pointer">
+          <div class="relative stage-mist overflow-hidden mb-5 product-stage" style="aspect-ratio:4/3;">
+            <img src="product-anxin-50ml.jpg" alt="中老年护肤" class="product-img" style="max-height:75%; max-width:35%;" />
+          </div>
+          <p class="text-brand-muted text-xs tracking-widest mb-2 font-sans">随笔 · 4 分钟阅读</p>
+          <h3 class="font-serif text-lg text-brand-text leading-snug mb-2 group-hover:text-brand-green transition-colors">
+            中老年女性的"护肤不需要装嫩"
+          </h3>
+          <p class="text-sm text-brand-muted leading-6 font-sans">
+            "我们不需要装嫩，但要优雅地老去"——这是鹤研对成熟肌肤的回答……
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NEWSLETTER ===================== -->
+  <section class="py-20 md:py-24 bg-brand-green">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 text-center">
+      <p class="text-brand-gold-light text-xs tracking-[0.3em] uppercase mb-5 font-sans">鹤研 · 通讯</p>
+      <h2 class="font-serif text-3xl md:text-4xl text-white mb-5">加入鹤研</h2>
+      <p class="text-white/70 text-sm leading-7 font-sans max-w-xl mx-auto mb-10">
+        订阅获取新品资讯、护肤科普与会员专享内容。
+      </p>
+      <form class="flex flex-col sm:flex-row max-w-md mx-auto gap-3">
+        <input type="email" placeholder="你的邮箱地址" class="flex-1 bg-white/10 border border-white/30 text-white placeholder-white/50 px-5 py-3.5 text-sm focus:outline-none focus:border-white transition-colors font-sans" />
+        <button type="submit" class="bg-white text-brand-green text-sm px-8 py-3.5 tracking-widest hover:bg-brand-cream transition-colors font-sans">
+          订阅
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-brand-green-dark text-white/80 pt-16 pb-10">
+    <div class="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+        <div>
+          <img src="logo-heyyan.png" alt="鹤研" class="h-9 w-auto mb-5 brightness-0 invert opacity-90" />
+          <p class="text-xs leading-6 font-sans">
+            鹤研 HEYAN<br/>
+            优雅地老去
+          </p>
+        </div>
+        <div>
+          <h4 class="text-white text-sm mb-5 tracking-widest font-sans">护肤</h4>
+          <ul class="space-y-2.5 text-xs font-sans">
+            <li><a href="#" class="hover:text-white transition-colors">乳液 · 面霜</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">精华 · 凝露</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">喷雾</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">护肤套装</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white text-sm mb-5 tracking-widest font-sans">服务</h4>
+          <ul class="space-y-2.5 text-xs font-sans">
+            <li><a href="#" class="hover:text-white transition-colors">门店查询</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">肌肤咨询</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">退换货</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">联系我们</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white text-sm mb-5 tracking-widest font-sans">关于</h4>
+          <ul class="space-y-2.5 text-xs font-sans">
+            <li><a href="#" class="hover:text-white transition-colors">品牌故事</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">鹤研札记</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">可持续</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">招贤纳士</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-xs text-white/50 font-sans">
+        <p>© 2026 鹤研 HEYAN. 保留所有权利</p>
+        <div class="flex gap-6">
+          <a href="#" class="hover:text-white transition-colors">隐私政策</a>
+          <a href="#" class="hover:text-white transition-colors">使用条款</a>
+          <a href="#" class="hover:text-white transition-colors">沪 ICP 备 2026000000 号</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
