@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>乐摩科技(02539) · 资讯公告 · 2026年7月2日</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red:    #c0392b;
+      --red-light: #f9e0de;
+      --gold:   #b7960c;
+      --ink:    #1a1a1a;
+      --ink-mid:#444;
+      --ink-dim:#888;
+      --line:   #ddd;
+      --bg:     #faf8f4;
+      --card:   #ffffff;
+      --mono:   'IBM Plex Mono', monospace;
+      --serif:  'Noto Serif SC', serif;
+      --sans:   'Noto Sans SC', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      min-height: 100vh;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      background: var(--ink);
+      color: #fff;
+      padding: 36px 48px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--red), var(--gold), var(--red));
+    }
+    .header-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: #aaa;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .header-ticker {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+    .header-title {
+      font-family: var(--serif);
+      font-size: clamp(22px, 4vw, 36px);
+      font-weight: 700;
+      line-height: 1.25;
+      color: #fff;
+    }
+    .header-meta {
+      margin-top: 14px;
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .header-date {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: #bbb;
+    }
+    .header-source {
+      font-size: 12px;
+      color: #888;
+    }
+    .header-link {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--gold);
+      text-decoration: none;
+      border: 1px solid var(--gold);
+      padding: 4px 10px;
+      border-radius: 2px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .header-link:hover { background: var(--gold); color: #fff; }
+
+    /* ─── PRICE ALERT BANNER ─── */
+    .alert-banner {
+      background: var(--red);
+      color: #fff;
+      padding: 12px 48px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .alert-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #fff;
+      flex-shrink: 0;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.7); }
+    }
+
+    /* ─── MAIN LAYOUT ─── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ─── STATS STRIP ─── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+    .stat-cell {
+      background: var(--card);
+      padding: 18px 20px;
+      position: relative;
+    }
+    .stat-cell.negative .stat-value { color: var(--red); }
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--ink-dim);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .stat-value {
+      font-family: var(--mono);
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .stat-sub {
+      font-size: 11px;
+      color: var(--ink-dim);
+      margin-top: 3px;
+    }
+
+    /* ─── SECTION HEADER ─── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      margin-top: 40px;
+    }
+    .section-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      background: var(--ink);
+      color: #fff;
+      border-radius: 2px;
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+
+    /* ─── NEWS CARDS ─── */
+    .news-list { display: flex; flex-direction: column; gap: 0; }
+
+    .news-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 0;
+      border-bottom: 1px solid var(--line);
+      background: var(--card);
+      transition: background 0.15s;
+      cursor: default;
+    }
+    .news-item:first-child { border-top: 1px solid var(--line); }
+    .news-item:hover { background: #fdf5f5; }
+
+    .news-date-col {
+      padding: 18px 16px;
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 2px;
+    }
+    .news-month {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--ink-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .news-day {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .news-year {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--ink-dim);
+    }
+
+    .news-body {
+      padding: 18px 20px;
+    }
+    .news-headline {
+      font-family: var(--serif);
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.5;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .news-excerpt {
+      font-size: 13px;
+      color: var(--ink-mid);
+      line-height: 1.7;
+    }
+    .news-badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      padding: 2px 7px;
+      border-radius: 2px;
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+    .badge-drop { background: var(--red-light); color: var(--red); }
+    .badge-rise { background: #e6f4ea; color: #1e7e34; }
+    .badge-neutral { background: #f0f0f0; color: #555; }
+
+    /* ─── ANNOUNCEMENTS ─── */
+    .ann-list { display: flex; flex-direction: column; gap: 0; }
+    .ann-item {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .ann-date {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--ink-dim);
+      flex-shrink: 0;
+      width: 80px;
+    }
+    .ann-text {
+      font-size: 13.5px;
+      color: var(--ink-mid);
+      line-height: 1.55;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ink);
+      color: #666;
+      padding: 20px 48px;
+      font-family: var(--mono);
+      font-size: 11px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+
+    /* ─── FADE IN ─── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeUp 0.5s ease forwards;
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in:nth-child(1) { animation-delay: 0.05s; }
+    .fade-in:nth-child(2) { animation-delay: 0.1s; }
+    .fade-in:nth-child(3) { animation-delay: 0.15s; }
+    .fade-in:nth-child(4) { animation-delay: 0.2s; }
+    .fade-in:nth-child(5) { animation-delay: 0.25s; }
+    .fade-in:nth-child(6) { animation-delay: 0.3s; }
+    .fade-in:nth-child(7) { animation-delay: 0.35s; }
+    .fade-in:nth-child(8) { animation-delay: 0.4s; }
+    .fade-in:nth-child(9) { animation-delay: 0.45s; }
+
+    @media (max-width: 600px) {
+      header, .alert-banner, footer { padding-left: 20px; padding-right: 20px; }
+      .news-item { grid-template-columns: 64px 1fr; }
+      .news-day { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <div class="header-label">港股资讯 · HKF10 资料</div>
+  <div class="header-ticker">HK · 02539.HK</div>
+  <h1 class="header-title">乐摩科技</h1>
+  <div class="header-meta">
+    <span class="header-date">2026-07-02 14:16</span>
+    <span class="header-source">来源：东方财富 · 网页更新提醒</span>
+    <a class="header-link"
+       href="https://emweb.securities.eastmoney.com/PC_HKF10/pages/home/index.html?code=02539&type=web&color=w#/CompanyNews"
+       target="_blank" rel="noopener">↪ 详情</a>
+  </div>
+</header>
+
+<!-- ─── ALERT BANNER ─── -->
+<div class="alert-banner">
+  <div class="alert-dot"></div>
+  <span>股价较40港元发行价已跌去约 <strong>82%</strong>，较历史最高价暴跌超 <strong>91%</strong> ——"共享按摩椅第一股"上市即巅峰</span>
+</div>
+
+<!-- ─── MAIN ─── -->
+<main>
+
+  <!-- STATS -->
+  <div class="stats-grid">
+    <div class="stat-cell negative fade-in">
+      <div class="stat-label">最新收盘</div>
+      <div class="stat-value">7.20</div>
+      <div class="stat-sub">港元 · 2026-06-25</div>
+    </div>
+    <div class="stat-cell negative fade-in">
+      <div class="stat-label">较发行价跌幅</div>
+      <div class="stat-value">−82%</div>
+      <div class="stat-sub">发行价 40 港元</div>
+    </div>
+    <div class="stat-cell negative fade-in">
+      <div class="stat-label">较历史高位跌幅</div>
+      <div class="stat-value">&gt;−91%</div>
+      <div class="stat-sub">"脚踝斩"</div>
+    </div>
+    <div class="stat-cell fade-in">
+      <div class="stat-label">2025年总收入</div>
+      <div class="stat-value">9.07亿</div>
+      <div class="stat-sub">同比 +13.63%</div>
+    </div>
+    <div class="stat-cell fade-in">
+      <div class="stat-label">2025年净利润</div>
+      <div class="stat-value">9373万</div>
+      <div class="stat-sub">同比 +9.23%</div>
+    </div>
+    <div class="stat-cell fade-in">
+      <div class="stat-label">市盈率 TTM</div>
+      <div class="stat-value">3.85×</div>
+      <div class="stat-sub">市净率 0.72×</div>
+    </div>
+  </div>
+
+  <!-- ─── NEWS ─── -->
+  <div class="section-header">
+    <span class="section-tag">相关资讯</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="news-list">
+    <!-- Item 1 -->
+    <div class="news-item fade-in">
+      <div class="news-date-col">
+        <div class="news-month">Jun</div>
+        <div class="news-day">27</div>
+        <div class="news-year">2026</div>
+      </div>
+      <div class="news-body">
+        <div>
+          <span class="news-badge badge-drop">暴跌</span>
+          <span class="news-badge badge-drop">破发</span>
+        </div>
+        <div class="news-headline">从7324倍抢购到破发下挫82%，遭遇"脚踝斩"！共享按摩椅"一哥"乐摩科技上市即巅峰</div>
+        <div class="news-excerpt">
+          内地共享按摩椅龙头乐摩科技（02539.HK）6月25日全天成交低迷，股价萎靡不振，最终收报7.2港元，收跌13.25%，股价续创收盘新低。该股已较每股40港元发行价跌去82%，较历史最高纪录暴跌超91%。当前市盈率TTM为3.85倍，市净率0.72倍，估值处于历史低位。
+        </div>
+      </div>
+    </div>
+
+    <!-- Item 2 -->
+    <div class="news-item fade-in">
+      <div class="news-date-col">
+        <div class="news-month">Mar</div>
+        <div class="news-day">20</div>
+        <div class="news-year">2026</div>
+      </div>
+      <div class="news-body">
+        <div><span class="news-badge badge-rise">业绩</span></div>
+        <div class="news-headline">乐摩科技2025年净利润9373万元 增长9.23%</div>
+        <div class="news-excerpt">
+          公司发布截至2025年12月31日止年度业绩公告。总收入9.07亿元，同比增长13.63%；净利润9373万元，同比增长9.23%。销售成本从5.1亿增至6.01亿元，主要由于场地和设备投入增加导致场地费用、设备折旧费用上升。
+        </div>
+      </div>
+    </div>
+
+    <!-- Item 3 -->
+    <div class="news-item fade-in">
+      <div class="news-date-col">
+        <div class="news-month">Feb</div>
+        <div class="news-day">12</div>
+        <div class="news-year">2026</div>
+      </div>
+      <div class="news-body">
+        <div><span class="news-badge badge-rise">异动</span></div>
+        <div class="news-headline">港股异动 | 乐摩科技冲高回落 盘中涨幅一度达25%</div>
+        <div class="news-excerpt">乐摩科技盘中涨幅一度达25%，随后冲高回落。</div>
+      </div>
+    </div>
+
+    <!-- Item 4 -->
+    <div class="news-item fade-in">
+      <div class="news-date-col">
+        <div class="news-month">Feb</div>
+        <div class="news-day">06</div>
+        <div class="news-year">2026</div>
+      </div>
+      <div class="news-body">
+        <div><span class="news-badge badge-drop">暴跌</span></div>
+        <div class="news-headline">"共享按摩椅第一股"乐摩科技单日暴跌40%，上市港股仅两月，股价较发行时"腰斩"</div>
+        <div class="news-excerpt">乐摩科技上市仅约两个月，股价单日暴跌40%，较40港元发行价已"腰斩"。</div>
+      </div>
+    </div>
+
+    <!-- Item 5 -->
+    <div class="news-item fade-in">
+      <div class="news-date-col">
+        <div class="news-month">Feb</div>
+        <div class="news-day">05</div>
+        <div class="news-year">2026</div>
+      </div>
+      <div class="news-body">
+        <div><span class="news-badge badge-drop">暴跌</span></div>
+        <div class="news-headline">"共享按摩椅第一股"，突然暴跌40%！其在影院、高铁站等投放53万台按摩椅，注册会员超4000万，年入8亿元</div>
+        <div class="news-excerpt">
+          乐摩科技在影院、高铁站等场所投放逾53万台按摩椅，注册会员超4000万，年入约8亿元。然而上市后股价连续大幅下跌。
+        </div>
+      </div>
+    </div>
+
+    <!-- Item 6 -->
+    <div class="news-item fade-in">
+      <div class="news-date-col">
+        <div class="news-month">Jan</div>
+        <div class="news-day">30</div>
+        <div class="news-year">2026</div>
+      </div>
+      <div class="news-body">
+        <div><span class="news-badge badge-neutral">市场</span></div>
+        <div class="news-headline">内地企业赴港上市深耕提质 硬核实力筑牢融资根基</div>
+        <div class="news-excerpt">关于内地企业赴港上市趋势及提质发展的市场评论。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── ANNOUNCEMENTS ─── -->
+  <div class="section-header">
+    <span class="section-tag">相关公告</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="ann-list">
+    <div class="ann-item fade-in">
+      <span class="ann-date">2026-06-03</span>
+      <span class="ann-text">截至二零二六年五月三十一日止之股份发行人的证券变动月报表</span>
+    </div>
+    <div class="ann-item fade-in">
+      <span class="ann-date">2026-05-18</span>
+      <span class="ann-text">章程</span>
+    </div>
+    <div class="ann-item fade-in">
+      <span class="ann-date">2026-05-18</span>
+      <span class="ann-text">董事名单与其角色和职能</span>
+    </div>
+    <div class="ann-item fade-in">
+      <span class="ann-date">2026-05-18</span>
+      <span class="ann-text">截至二零二五年十二月三十一日止年度之末期股息</span>
+    </div>
+    <div class="ann-item fade-in">
+      <span class="ann-date">2026-05-18</span>
+      <span class="ann-text">（1）于2026年5月18日举行的年度股东会投票表决结果；（2）派发末期股息；（3）修订公司章程及撤销监事会；（4）委任职工代表董事；及（5）变更提名委员会组成</span>
+    </div>
+    <div class="ann-item fade-in">
+      <span class="ann-date">2026-05-06</span>
+      <span class="ann-text">截至二零二六年四月三十日止之股份发行人的证券变动月报表</span>
+    </div>
+    <div class="ann-item fade-in">
+      <span class="ann-date">2026-04-24</span>
+      <span class="ann-text">致H股非登记持有人之通知信函及申请表格——以电子方式发布公司通讯之安排</span>
+    </div>
+    <div class="ann-item fade-in">
+      <span class="ann-date">2026-04-24</span>
+      <span class="ann-text">2025年年度股东会通函</span>
+    </div>
+    <div class="ann-item fade-in">
+      <span class="ann-date">2026-04-24</span>
+      <span class="ann-text">致H股登记股东之通知信函——以电子方式发布公司通讯之安排</span>
+    </div>
+    <div class="ann-item fade-in">
+      <span class="ann-date">2026-04-24</span>
+      <span class="ann-text">与福建荣耀及上海猫一会的持续关连交易</span>
+    </div>
+    <div class="ann-item fade-in">
+      <span class="ann-date">2026-03-20</span>
+      <span class="ann-text">乐摩科技：2026年6月15日派发股息 0.506元/股</span>
+    </div>
+    <div class="ann-item fade-in">
+      <span class="ann-date">2026-03-20</span>
+      <span class="ann-text">乐摩科技：2025年净利润同比增长9.23%</span>
+    </div>
+  </div>
+
+</main>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <span>乐摩科技 HK 02539 · 资讯汇总 · 2026-07-02</span>
+  <span>数据来源：<a href="https://emweb.securities.eastmoney.com/PC_HKF10/pages/home/index.html?code=02539&type=web&color=w#/CompanyNews" target="_blank" rel="noopener">东方财富 HKF10</a> · <a href="https://wm.suluf.com/?from=fs" target="_blank" rel="noopener">网页更新提醒</a></span>
+</footer>
+
+</body>
+</html>
